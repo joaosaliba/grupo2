@@ -21,6 +21,7 @@ public class SecurityConfig {
             "/v3/api-docs/**",
             "/api/public/**",
             "/swagger-ui/**",
+            "/h2-console/**",
 
     };
     private final JwtAuthenticationFilter jwtAuthFilter;
@@ -36,12 +37,18 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(AUTH_WHITELIST).permitAll()
-                        .anyRequest().authenticated())
 
-                .authenticationProvider(authenticationManagerBean)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll()
+                ).headers(headers-> headers.disable())
+
+;
+
+//                .authorizeHttpRequests((authorize) -> authorize
+//                        .requestMatchers(AUTH_WHITELIST).permitAll()
+//                        .anyRequest().authenticated())
+//
+//                .authenticationProvider(authenticationManagerBean)
+//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
