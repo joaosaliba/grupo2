@@ -19,8 +19,10 @@ import java.util.function.Function;
 public class JwtUtil {
 
     private static final String SECRET_KEY = "614E645267556B58703273357638782F413F4428472B4B6250655368566D5971";
+
     @Value("${jwt.secret}")
     private String secretKey;
+
     @Value("${jwt.expiration}")
     private Long expiration;
 
