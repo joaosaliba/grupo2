@@ -62,7 +62,7 @@ public class ApplicationConfig {
         System.out.println(allowedOrigins);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(allowedOrigins); // Domínio do seu frontend
+        config.setAllowedOrigins(List.of("*")); // Domínio do seu frontend
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);

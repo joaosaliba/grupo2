@@ -14,5 +14,7 @@ jwt:
   secret: meusegredo_pokedex
   expiration: 100000
 app:
+  pokemon:
+    url: 'https://pokeapi.co/api/v2/'
   cors:
     allowedOrigins: 'http://localhost:4200'
