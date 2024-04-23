@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(value = "podekerendpoint", url ="${app.pokemon.url}" )
+@FeignClient(value = "pokemonClient", url ="${app.pokemon.url}" )
 public interface PokedexEndPointRepository {
 
     @GetMapping(path = "pokemon",params = "limit")
