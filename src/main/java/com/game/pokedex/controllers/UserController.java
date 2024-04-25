@@ -1,10 +1,8 @@
 package com.game.pokedex.controllers;
 
+import com.game.pokedex.dtos.UserDto;
 import com.game.pokedex.service.UserService;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -18,5 +16,10 @@ public class UserController {
     @DeleteMapping("{username}")
     public void deleteUserByUsername(@PathVariable("username") String username) throws Exception {
         this.userService.deleteUserByUsername(username);
+    }
+
+    @GetMapping("{username}")
+    public UserDto getUserByUsername(@PathVariable("username") String username) throws Exception {
+      return  this.userService.getUserByUsername(username);
     }
 }
