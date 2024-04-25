@@ -1,6 +1,7 @@
 package com.game.pokedex.config;
 
 import com.game.pokedex.repositories.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +19,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import java.util.List;
-
 @Configuration
 public class ApplicationConfig {
 
@@ -68,5 +68,8 @@ public class ApplicationConfig {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
-
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 }
