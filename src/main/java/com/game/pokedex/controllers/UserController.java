@@ -7,18 +7,18 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 public class UserController {
- private final UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    @DeleteMapping("{username}")
+    @DeleteMapping("/{username}")
     public void deleteUserByUsername(@PathVariable("username") String username) throws Exception {
         this.userService.deleteUserByUsername(username);
     }
 
-    @GetMapping("{username}")
+    @GetMapping("/{username}")
     public UserDto getUserByUsername(@PathVariable("username") String username) throws Exception {
       return  this.userService.getUserByUsername(username);
     }
