@@ -2,6 +2,7 @@ package com.game.pokedex.controllers;
 
 import com.game.pokedex.dtos.UserDto;
 import com.game.pokedex.dtos.UserRequest;
+import com.game.pokedex.dtos.UserUpdateRequest;
 import com.game.pokedex.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,12 @@ public class UserController {
     @GetMapping("/{username}")
     public UserDto getUserByUsername(@PathVariable("username") String username) throws Exception {
       return  this.userService.getUserByUsername(username);
+    }
+
+    @PutMapping("/{username}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public UserDto updateUser(@PathVariable String username, @RequestBody UserUpdateRequest userUpdateRequest) throws Exception {
+        return this.userService.update(username, userUpdateRequest);
     }
 
     @PostMapping

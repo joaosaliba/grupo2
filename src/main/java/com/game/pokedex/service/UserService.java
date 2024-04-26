@@ -2,6 +2,7 @@ package com.game.pokedex.service;
 
 import com.game.pokedex.dtos.UserDto;
 import com.game.pokedex.dtos.UserRequest;
+import com.game.pokedex.dtos.UserUpdateRequest;
 import com.game.pokedex.entities.User;
 import com.game.pokedex.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -47,5 +48,13 @@ public class UserService {
                         (element) -> modelMapper.map(element, UserDto.class)
                 )
                 .toList();
+    }
+
+    public UserDto update(String username, UserUpdateRequest userUpdateRequest) throws Exception {
+        User user = this.userRepository.findByName(username)
+                .orElseThrow(()-> new Exception("Usuário não encontrado"));
+        user.setModifiedDate(userUpdateRequest.getModifiedDate());
+        user.setPassword(userUpdateRequest.getPassword());
+        return modelMapper.map(this.userRepository.save(user), UserDto.class);
     }
 }
