@@ -7,6 +7,8 @@ import com.game.pokedex.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -36,5 +38,14 @@ public class UserService {
 
      return this.modelMapper.map(user,UserDto.class);
 
+    }
+
+    public List<UserDto> getAll() {
+        return this.userRepository.findAll()
+                .stream()
+                .map(
+                        (element) -> modelMapper.map(element, UserDto.class)
+                )
+                .toList();
     }
 }
