@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("pokemons")
+@RequestMapping("/pokemons")
 public class PokemonController {
     private final PokedexEndPointRepository repository;
 
@@ -17,6 +17,6 @@ public class PokemonController {
 
     @GetMapping
     public ClientResultPokemons getAll(){
-        return repository.getAll(1302l);
+        return repository.getAll(1302L);
     }
 }
