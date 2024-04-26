@@ -33,7 +33,7 @@ public class UserService {
     }
 
     public UserDto getUserByUsername(String username)throws Exception {
-        User user = this.userRepository.findByEmail(username)
+        User user = this.userRepository.findByName(username)
                 .orElseThrow(()-> new Exception("Usuário não encontrado"));
 
      return this.modelMapper.map(user,UserDto.class);
