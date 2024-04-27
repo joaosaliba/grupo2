@@ -2,12 +2,13 @@ package com.game.pokedex.entities;
 
 import com.game.pokedex.dtos.client.Pokemon;
 import jakarta.persistence.*;
-import org.apache.catalina.LifecycleState;
 
-import java.util.List;
+
 
 @Entity
-@Table(name = "pokedex_app")
+@Table(name = "pokedex_app", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"user_id", "pokemon_name"})
+})
 public class Pokedex {
 
     @Id
@@ -18,21 +19,26 @@ public class Pokedex {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @JoinColumn(name = "pokemon_name")
+    @Column(name = "pokemon_name")
     private String name;
-    @JoinColumn(name = "hp_stats")
-    private Long hp;
-    @JoinColumn(name = "attack_stats")
-    private Long attack;
-    @JoinColumn(name = "defense_stats")
-    private Long defense;
-    @JoinColumn(name = "special_attack_stats")
-    private Long specialAttack;
-    @JoinColumn(name = "special_defense_stats")
-    private Long specialDefense;
-    @JoinColumn(name = "speed_stats")
-    private Long speed;
 
+    @Column(name = "hp")
+    private Long hp;
+
+    @Column(name = "attack")
+    private Long attack;
+
+    @Column(name = "defense")
+    private Long defense;
+
+    @Column(name = "special_attack")
+    private Long specialAttack;
+
+    @Column(name = "special_defense")
+    private Long specialDefense;
+
+    @Column(name = "speed")
+    private Long speed;
 
     public Pokedex() {
     }
