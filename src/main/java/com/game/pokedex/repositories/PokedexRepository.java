@@ -11,4 +11,8 @@ public interface PokedexRepository extends JpaRepository<Pokedex, Long> {
 
     void deletePokedexByUserId(Long id);
 
+    List<Pokedex> findByUserId(Long id);
+
+    void deleteById(Long id);
+
 }

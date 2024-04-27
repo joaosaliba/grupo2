@@ -22,4 +22,13 @@ public class PokedexService {
         this.pokedexRepository.deletePokedexByUserId(id);
     }
 
+
+    public List<Pokedex> listPokedexByUserId(Long id){
+        return this.pokedexRepository.findByUserId(id);
+    }
+
+    @Transactional
+    public void deletePokemonById(Long id){
+        this.pokedexRepository.deleteById(id);
+    }
 }
