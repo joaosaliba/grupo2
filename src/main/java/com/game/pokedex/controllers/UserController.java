@@ -5,6 +5,7 @@ import com.game.pokedex.dtos.UserRequest;
 import com.game.pokedex.dtos.UserUpdateRequest;
 import com.game.pokedex.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -25,7 +26,7 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasRole(T(com.game.pokedex.entities.User.Role).ADMIN.name())")
-    public List<UserDto> getUsers(){
+    public ResponseEntity<List<UserDto>> getUsers(){
         return this.userService.getAll();
     }
 
@@ -43,14 +44,13 @@ public class UserController {
     }
 
     @PutMapping("/{username}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public UserDto updateUser(@PathVariable String username, @RequestBody UserUpdateRequest userUpdateRequest) throws Exception {
+    public ResponseEntity<UserDto> updateUser(@PathVariable String username, @RequestBody UserUpdateRequest userUpdateRequest) throws Exception {
         return this.userService.update(username, userUpdateRequest);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDto createUser(@RequestBody UserRequest request){
+    public ResponseEntity<UserDto> createUser(@RequestBody UserRequest request){
         return this.userService.createUser(request);
     }
 }
