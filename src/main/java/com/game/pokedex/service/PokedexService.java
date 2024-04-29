@@ -31,4 +31,9 @@ public class PokedexService {
     public void deletePokemonById(Long id){
         this.pokedexRepository.deleteById(id);
     }
+
+    @Transactional
+    public void addPokemonToPokedex(Pokedex pokedex){
+        this.pokedexRepository.save(pokedex);
+    }
 }

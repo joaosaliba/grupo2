@@ -6,8 +6,11 @@ import com.game.pokedex.dtos.UserUpdateRequest;
 import com.game.pokedex.entities.User;
 import com.game.pokedex.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
 import java.util.List;
 
 @Service
@@ -20,11 +23,11 @@ public class UserService {
         this.modelMapper = modelMapper;
     }
 
-    public UserDto createUser(UserRequest userRequest){
+    public ResponseEntity<UserDto> createUser(UserRequest userRequest){
         User user;
         user = this.modelMapper.map(userRequest, User.class);
         user = this.userRepository.save(user);
-        return this.modelMapper.map(user, UserDto.class);
+        return ResponseEntity.created(URI.create("/user/"+user.getId())).body(this.modelMapper.map(user, UserDto.class));
     }
 
     public void deleteUserByUsername(String username) throws Exception {
@@ -41,20 +44,24 @@ public class UserService {
 
     }
 
-    public List<UserDto> getAll() {
-        return this.userRepository.findAll()
+    public ResponseEntity<List<UserDto>> getAll() {
+        return ResponseEntity.ok(
+        this.userRepository.findAll()
                 .stream()
                 .map(
                         (element) -> modelMapper.map(element, UserDto.class)
                 )
-                .toList();
+                .toList());
     }
 
-    public UserDto update(String username, UserUpdateRequest userUpdateRequest) throws Exception {
-        User user = this.userRepository.findByName(username)
-                .orElseThrow(()-> new Exception("Usuário não encontrado"));
+    public ResponseEntity<UserDto> update(String username, UserUpdateRequest userUpdateRequest){
+        User user = this.userRepository.findByName(username).orElse(null);
+        if (user == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         user.setModifiedDate(userUpdateRequest.getModifiedDate());
         user.setPassword(userUpdateRequest.getPassword());
-        return modelMapper.map(this.userRepository.save(user), UserDto.class);
+        this.userRepository.save(user);
+        return ResponseEntity.noContent().build();
     }
 }
