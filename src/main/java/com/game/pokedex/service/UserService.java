@@ -6,6 +6,7 @@ import com.game.pokedex.dtos.UserUpdateRequest;
 import com.game.pokedex.entities.User;
 import com.game.pokedex.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,15 +15,19 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private  final PasswordEncoder encoder;
 
-    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        this.encoder = encoder;
     }
 
     public UserDto createUser(UserRequest userRequest){
         User user;
         user = this.modelMapper.map(userRequest, User.class);
+        user.setRole(User.Role.valueOf(userRequest.getRole()));
+        user.setPassword(encoder.encode(userRequest.getPassword()));
         user = this.userRepository.save(user);
         return this.modelMapper.map(user, UserDto.class);
     }

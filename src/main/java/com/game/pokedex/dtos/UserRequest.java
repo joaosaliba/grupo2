@@ -9,15 +9,18 @@ public class UserRequest implements Serializable {
     private String email;
     private String password;
     private String name;
+    private String role;
 
     public UserRequest() {
     }
 
-    public UserRequest(Instant createdDate, String email, String password, String name) {
+
+    public UserRequest(Instant createdDate, String email, String password, String name, String role) {
         this.createdDate = createdDate;
         this.email = email;
         this.password = password;
         this.name = name;
+        this.role = role;
     }
 
     public Instant getCreatedDate() {
@@ -50,6 +53,14 @@ public class UserRequest implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override

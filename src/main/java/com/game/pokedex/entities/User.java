@@ -2,10 +2,13 @@ package com.game.pokedex.entities;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Table(name = "user_app")
@@ -23,6 +26,11 @@ public class User implements UserDetails {
     private String password;
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+    public enum Role {
+        ADMIN, MESTRE_POKEMON
+    }
 
     public User() {
     }
@@ -65,7 +73,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return new ArrayList<>(Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + this.role.name())));
     }
 
     public Instant getCreatedDate() {
@@ -110,5 +118,13 @@ public class User implements UserDetails {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
