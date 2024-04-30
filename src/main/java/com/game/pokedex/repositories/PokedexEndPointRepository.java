@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(value = "pokemonClient", url ="${app.pokemon.url}" )
 public interface PokedexEndPointRepository {
 
-    @GetMapping(path = "pokemon",params = "limit")
-    ClientResultPokemons getAll(@RequestParam Long limit);
+    @GetMapping(path = "pokemon",params = {"limit", "offset"})
+    ClientResultPokemons getAll(@RequestParam(name = "limit") Long limit, @RequestParam(name = "offset") Long offset);
 
     @GetMapping(path = "pokemon/{pokemon_name}")
     Pokemon getByName(@PathVariable String pokemon_name);
