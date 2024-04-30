@@ -1,8 +1,11 @@
 package com.game.pokedex.controllers;
 
 
+import com.game.pokedex.dtos.EvolutionChain;
+import com.game.pokedex.dtos.PokemonSpecies;
 import com.game.pokedex.entities.Pokedex;
 import com.game.pokedex.service.PokedexService;
+import io.swagger.v3.core.util.Json;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,4 +36,12 @@ public class PokedexController {
         this.pokedexService.deletePokemonById(id);
     }
 
+    @GetMapping("/evoluir/{username}/{pokemon_name}")
+    public EvolutionChain evolvePokemon(@PathVariable String username, @PathVariable String pokemon_name){
+        PokemonSpecies pokemonSpecies = this.pokedexService.evolvePokemon(username, pokemon_name);
+        EvolutionChain evolutionChain = this.pokedexService.getEvolutionChain(pokemonSpecies);
+
+        return evolutionChain;
+    }
 }
+
