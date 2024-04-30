@@ -1,5 +1,6 @@
 package com.game.pokedex.controllers;
 
+import com.game.pokedex.dtos.client.CaptureRate;
 import com.game.pokedex.dtos.client.ClientResultPokemons;
 import com.game.pokedex.dtos.client.Pokemon;
 import com.game.pokedex.entities.Pokedex;
@@ -43,8 +44,10 @@ public class PokemonController {
         Random random = new Random();
         int sortedNumber = random.nextInt(100);
 
+        CaptureRate captureRate = repository.getCaptureRateByName(pokemon_name);
+
         optinalUser.ifPresent(user -> {
-            if(sortedNumber < 30) {
+            if(sortedNumber < captureRate.capture_rate()) {
                 Pokemon capturedPokemon = repository.getByName(pokemon_name);
 
                 Pokedex pokedex = new Pokedex();

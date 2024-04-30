@@ -1,5 +1,6 @@
 package com.game.pokedex.repositories;
 
+import com.game.pokedex.dtos.client.CaptureRate;
 import com.game.pokedex.dtos.client.ClientResultPokemons;
 import com.game.pokedex.dtos.client.Pokemon;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -15,4 +16,7 @@ public interface PokedexEndPointRepository {
 
     @GetMapping(path = "pokemon/{pokemon_name}")
     Pokemon getByName(@PathVariable String pokemon_name);
+
+    @GetMapping(path = "pokemon-species/{pokemon_name}")
+    CaptureRate getCaptureRateByName(@PathVariable String pokemon_name);
 }
