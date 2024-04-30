@@ -23,8 +23,10 @@ public class User implements UserDetails {
     private String password;
     private String name;
 
-
     public User() {
+    }
+
+    public User(Long userId) {
     }
 
     public User(String email, String password) {
