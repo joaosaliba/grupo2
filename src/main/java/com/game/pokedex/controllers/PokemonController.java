@@ -28,8 +28,9 @@ public class PokemonController {
     }
 
     @GetMapping
-    public ClientResultPokemons getAll(){
-        return repository.getAll(1302L);
+    public ClientResultPokemons getAll(@RequestParam(value = "20") Long offset,
+                                       @RequestParam(value = "20") Long limit){
+        return repository.getAll(offset, limit);
     }
 
     @GetMapping("/{name}")
