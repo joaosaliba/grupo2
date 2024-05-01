@@ -1,5 +1,6 @@
 package com.game.pokedex.repositories;
 
+import com.game.pokedex.dtos.PokemonSpecies;
 import com.game.pokedex.dtos.client.CaptureRate;
 import com.game.pokedex.dtos.client.ClientResultPokemons;
 import com.game.pokedex.dtos.client.Pokemon;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(value = "pokemonClient", url ="${app.pokemon.url}" )
 public interface PokedexEndPointRepository {
 
-    @GetMapping(path = "pokemon",params = {"limit", "offset"})
+    @GetMapping(path = "pokemon", params = {"limit", "offset"})
     ClientResultPokemons getAll(@RequestParam(name = "limit") Long limit, @RequestParam(name = "offset") Long offset);
 
     @GetMapping(path = "pokemon/{pokemon_name}")
@@ -19,4 +20,8 @@ public interface PokedexEndPointRepository {
 
     @GetMapping(path = "pokemon-species/{pokemon_name}")
     CaptureRate getCaptureRateByName(@PathVariable String pokemon_name);
+
+    @GetMapping(path = "pokemon-species/{pokemon_name}")
+    PokemonSpecies getByEvolutionChain(@PathVariable String pokemon_name);
+
 }
