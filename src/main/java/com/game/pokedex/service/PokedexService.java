@@ -34,7 +34,7 @@ public class PokedexService {
     }
 
 
-    public List<Pokedex> listPokedexByUserId(Long id){
+    public Pokedex listPokedexByUserId(Long id){
         return this.pokedexRepository.findByUserId(id);
     }
 
