@@ -66,7 +66,8 @@ public class UserService {
         }
         user.setModifiedDate(userUpdateRequest.getModifiedDate());
         user.setPassword(userUpdateRequest.getPassword());
-        this.userRepository.save(user);
-        return ResponseEntity.noContent().build();
+        User atalizado = this.userRepository.save(user);
+        UserDto resposta = modelMapper.map(atalizado, UserDto.class);
+        return ResponseEntity.ok().body(resposta);
     }
 }
