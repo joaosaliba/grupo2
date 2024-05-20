@@ -16,11 +16,34 @@ public class User implements UserDetails {
     @Column(name = "created_date", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     protected Instant createdDate;
+
+    @Column(name = "modified_date")
     @Temporal(TemporalType.TIMESTAMP)
     protected Instant modifiedDate;
     @Id()
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Instant getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
     @Column(name = "email", unique = true)
     private String email;
     private String password;
@@ -102,4 +125,10 @@ public class User implements UserDetails {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+
 }

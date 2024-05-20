@@ -6,6 +6,10 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password: pass
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
   h2:
     console:
       enabled: true
@@ -17,7 +21,7 @@ app:
   pokemon:
     url: 'https://pokeapi.co/api/v2/'
   cors:
-    allowedOrigins: 'http://localhost:4200'
+      allowedOrigins: 'http://localhost:4200'
 
 logging:
   level:
