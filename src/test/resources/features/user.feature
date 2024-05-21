@@ -1,18 +1,18 @@
 Feature: User
   Scenario: Cadastrar com sucesso
-    Given cliente com documento igual a "100" e não cadastrado
+    Given cliente com dados e não cadastrado
     When cadastro o cliente
     Then encontro o cliente cadastrado
-    And response should status equals 201
+    And resposta deve ter status igual a 201
 
   Scenario: Cadastrar cliente sem nome
-    Given cliente com documento igual a "100" e não cadastrado
+    Given cliente com dados e não cadastrado
     When cadastro o cliente sem informar o nome
     Then erro no cadastro 400
 
-  Scenario: Cadastrar cliente sem documento
-    Given cliente com documento igual a "100" e não cadastrado
-    When cadastro o cliente sem informar o document
+  Scenario: Cadastrar cliente email
+    Given cliente com dados e não cadastrado
+    When cadastro o cliente sem informar o email
     Then erro no cadastro 400
 
   Scenario: listar cliente ja cadastrado
