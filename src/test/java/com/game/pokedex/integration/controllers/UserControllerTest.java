@@ -8,6 +8,7 @@ import com.game.pokedex.dtos.UserRequest;
 import com.game.pokedex.dtos.UserUpdateRequest;
 import com.game.pokedex.service.UserService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,8 +28,6 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -54,7 +53,7 @@ public class UserControllerTest {
                 "user@example.com",
                 "Example User"
         );
-        when(userService.getAll()).thenReturn(new ResponseEntity<>(List.of(userDto), HttpStatus.OK));
+        Mockito.when(userService.getAll()).thenReturn(new ResponseEntity<>(List.of(userDto), HttpStatus.OK));
 
         mockMvc.perform(get("/user"))
                 .andExpect(status().isOk())
@@ -64,7 +63,7 @@ public class UserControllerTest {
     @Test
     @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     public void deleteUserByUsernameShouldReturnForbiddenForUnauthorizedUser() throws Exception {
-        doThrow(new ResponseStatusException(HttpStatus.FORBIDDEN, "Acesso negado")).when(userService).deleteUserByUsername("user1");
+        Mockito.doThrow(new ResponseStatusException(HttpStatus.FORBIDDEN, "Acesso negado")).when(userService).deleteUserByUsername("user1");
 
         mockMvc.perform(delete("/user/user1"))
                 .andExpect(status().isForbidden());
@@ -81,7 +80,7 @@ public class UserControllerTest {
                 "user@example.com",
                 "Example User"
         );
-        when(userService.update("user@example.com", updateRequest)).thenReturn(new ResponseEntity<>(updatedUser, HttpStatus.OK));
+        Mockito.when(userService.update("user@example.com", updateRequest)).thenReturn(new ResponseEntity<>(updatedUser, HttpStatus.OK));
 
         mockMvc.perform(put("/user/user@example.com")
                         .contentType(MediaType.APPLICATION_JSON)
