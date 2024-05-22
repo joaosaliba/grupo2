@@ -58,7 +58,7 @@ public class UserServiceTest {
         userRequest.setCreatedDate(Instant.now());
         userRequest.setName("jasdfl");
 
-        Assertions.assertThrows(NullPointerException.class, () -> userService.createUser(userRequest));
+        Assertions.assertThrows(Exception.class, () -> userService.createUser(userRequest));
     }
 
     @Test

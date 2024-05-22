@@ -34,7 +34,7 @@ public class PokedexController {
     }
 
     @GetMapping("user/{id}/pokemons")
-    public List<Pokedex> listPokedexByUserId(@PathVariable("id") Long id){
+    public Pokedex listPokedexByUserId(@PathVariable("id") Long id){
         return pokedexService.listPokedexByUserId(id);
     }
 

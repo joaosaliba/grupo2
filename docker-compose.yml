@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  wiremock:
+    image: "wiremock/wiremock:latest"
+    ports:
+      - '8082:8080'
+    volumes:
+      - ./stubs/mappings:/home/wiremock/mappings
+    entrypoint: [ "/docker-entrypoint.sh", "--global-response-templating", "--verbose" ]

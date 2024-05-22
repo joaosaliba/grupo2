@@ -29,8 +29,6 @@ public class PokedexControllerTest {
     @MockBean
     private PokedexService pokedexService;
 
-
-
     @Test
     @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     public void deletePokedexByUserIdTest() throws Exception {
@@ -44,12 +42,12 @@ public class PokedexControllerTest {
     @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     public void listPokedexByUserIdTest() throws Exception {
         Long userId = 1L;
-        List<Pokedex> mockedList = List.of(new Pokedex(), new Pokedex());
+        Pokedex mockedList =  new Pokedex();
         Mockito.when(pokedexService.listPokedexByUserId(userId)).thenReturn(mockedList);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/pokedex/user/{id}/pokemons", userId))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json("[{},{}]"));
+                .andExpect(MockMvcResultMatchers.content().json("{}"));
 
         Mockito.verify(pokedexService).listPokedexByUserId(userId);
     }
