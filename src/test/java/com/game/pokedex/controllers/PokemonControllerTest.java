@@ -1,7 +1,8 @@
 package com.game.pokedex.controllers;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.h2.H2ConsoleProperties;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,6 +17,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PokemonControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -23,7 +25,7 @@ public class PokemonControllerTest {
     @MockBean
     H2ConsoleProperties h2ConsoleProperties;
 
-    @BeforeEach
+    @BeforeAll
     void setUp() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/user")
@@ -49,4 +51,14 @@ public class PokemonControllerTest {
                         .with(user("menino@gmail.com").password("1234").roles("MESTRE_POKEMON"))
         ).andExpect(MockMvcResultMatchers.status().isOk());
     }
+
+    @Test
+    public void getByName_shouldntReturnPokemon_whenInvalidPokemonName() throws Exception {
+        String validPokemonName = "invalidPokemonName";
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/pokemons/" + validPokemonName)
+                        .with(user("menino@gmail.com").password("1234").roles("MESTRE_POKEMON"))
+        ).andExpect(MockMvcResultMatchers.status().is4xxClientError());
+    }
+
 }
