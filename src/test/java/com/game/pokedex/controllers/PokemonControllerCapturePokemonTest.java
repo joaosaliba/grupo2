@@ -9,10 +9,7 @@ import com.game.pokedex.entities.User;
 import com.game.pokedex.repositories.PokedexEndPointRepository;
 import com.game.pokedex.repositories.UserRepository;
 import com.game.pokedex.service.PokedexService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.h2.H2ConsoleProperties;
@@ -35,6 +32,7 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PokemonControllerCapturePokemonTest {
     @Autowired
@@ -69,7 +67,8 @@ public class PokemonControllerCapturePokemonTest {
 
 
     @Test
-    public void capturePokemon_shouldReturnTrue_whenCatchesPokemon() throws Exception {
+    @Order(1)
+    public void capturePokemon_shouldReturnTrue_whenCatchesPokemonAndAddPokemonToPokedex() throws Exception {
         // Mock user repository to return a user when findByUsername is called
         User user = new User("menino@gmail.com", "1234");
         user.setName("menino");
@@ -104,7 +103,8 @@ public class PokemonControllerCapturePokemonTest {
     }
 
     @Test
-    public void capturePokemon_shouldReturnFalse_whenTryCatchingPokemonFail() throws Exception {
+    @Order(2)
+    public void capturePokemon_shouldReturnFalse_whenTryCatchingPokemonFailAndNotAddPokemonToPokedex() throws Exception {
         // Mock user repository to return a user when findByUsername is called
         User user = new User("menino@gmail.com", "1234");
         user.setName("menino");
@@ -121,4 +121,17 @@ public class PokemonControllerCapturePokemonTest {
         // Verifica se o pokemon não foi salvo na pokedex
         verify(pokedexService, never()).addPokemonToPokedex(any(Pokedex.class));
     }
+
+    @Test
+    @Order(3)
+    public void capturePokemon_shouldReturnFalse_whenUserNotFound() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/user/menino@gmail.com")
+                        .with(user("menino@gmail.com").password("1234").roles("MESTRE_POKEMON"))
+        ).andExpect(MockMvcResultMatchers.status().isOk());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/capturar/menino@gmail.com/pikachu"))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+    }
+
 }
