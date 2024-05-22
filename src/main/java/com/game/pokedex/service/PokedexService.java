@@ -5,7 +5,9 @@ import com.game.pokedex.dtos.PokemonSpecies;
 import com.game.pokedex.entities.Pokedex;
 import com.game.pokedex.repositories.PokedexEndPointRepository;
 import com.game.pokedex.repositories.PokedexRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,7 +32,11 @@ public class PokedexService {
 
     @Transactional
     public void deletePokedexByUserId(Long id){
-        this.pokedexRepository.deletePokedexByUserId(id);
+        try {
+            pokedexRepository.deletePokedexByUserId(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new EntityNotFoundException("O Usuário " + id + " não possui Pokedex");
+        }
     }
 
 
@@ -40,7 +46,11 @@ public class PokedexService {
 
     @Transactional
     public void deletePokemonById(Long id){
-        this.pokedexRepository.deleteById(id);
+        try {
+            this.pokedexRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new EntityNotFoundException("O Pokemon " + id + " não foi encontrado");
+        }
     }
 
     @Transactional
