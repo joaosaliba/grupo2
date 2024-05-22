@@ -1,4 +1,4 @@
-package apiTest.user;
+package com.game.pokedex.test.user;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -11,7 +11,6 @@ import io.restassured.specification.RequestSpecification;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Assertions;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 
 public class UserStepDefinition {
@@ -19,12 +18,14 @@ public class UserStepDefinition {
     private RequestSpecification request;
     private Response response;
     private UserRequest userRequest = null;
-    private UserDto userDto = null;
+    private UserDto userDto;
 
     public UserStepDefinition(){
         request = RestAssured.given()
                 .baseUri("http://localhost:8080")
                 .contentType(ContentType.JSON);
+        userDto = new UserDto();
+        userRequest = new UserRequest();
     }
 
     @Given("cliente com dados e nao cadastrado")

@@ -1,4 +1,4 @@
-package apiTest.user;
+package com.game.pokedex.test.user;
 
 import java.io.Serializable;
 import java.time.Instant;

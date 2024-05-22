@@ -1,4 +1,4 @@
-package com.game.pokedex;
+package com.game.pokedex.test;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
