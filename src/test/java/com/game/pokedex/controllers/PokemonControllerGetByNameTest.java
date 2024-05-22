@@ -18,7 +18,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class PokemonControllerTest {
+public class PokemonControllerGetByNameTest {
     @Autowired
     MockMvc mockMvc;
 
