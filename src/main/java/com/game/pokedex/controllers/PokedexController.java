@@ -28,17 +28,17 @@ public class PokedexController {
             this.repository = repository;
             this.userRepository = userRepository;
         }
-    @DeleteMapping("/delete_user/{id}")
+    @DeleteMapping("/{id}")
     public void deletePokedexByUserId(@PathVariable("id") Long id){
         this.pokedexService.deletePokedexByUserId(id);
     }
 
-    @GetMapping("/list_pokemons/{id}")
+    @GetMapping("user/{id}/pokemons")
     public List<Pokedex> listPokedexByUserId(@PathVariable("id") Long id){
         return pokedexService.listPokedexByUserId(id);
     }
 
-    @DeleteMapping("/delete_pokemon/{id}")
+    @DeleteMapping("/pokemon/{id}")
     public void deletePokemonById(@PathVariable("id") Long id){
         this.pokedexService.deletePokemonById(id);
     }
@@ -74,6 +74,5 @@ public class PokedexController {
             }
             atual = proximo;
         }
-        return;
     }
 }
