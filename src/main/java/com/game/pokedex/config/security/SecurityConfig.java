@@ -26,8 +26,7 @@ public class SecurityConfig {
             "/v3/api-docs/**",
             "/api/public/**",
             "/swagger-ui/**",
-            "/h2-console/**",
-
+            "/h2-console/**"
     };
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationManagerBean;
