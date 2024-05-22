@@ -53,12 +53,21 @@ public class PokemonControllerTest {
     }
 
     @Test
-    public void getByName_shouldntReturnPokemon_whenInvalidPokemonName() throws Exception {
+    public void getByName_shouldNotReturnPokemon_whenInvalidPokemonName() throws Exception {
         String validPokemonName = "invalidPokemonName";
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/pokemons/" + validPokemonName)
                         .with(user("menino@gmail.com").password("1234").roles("MESTRE_POKEMON"))
         ).andExpect(MockMvcResultMatchers.status().is4xxClientError());
+    }
+
+    @Test
+    public void getByName_shouldReturnPokemon_whenPokemonNameHasSpecialCharacter() throws Exception {
+//        String validPokemonName = "invalidPokemonName";
+//        mockMvc.perform(
+//                MockMvcRequestBuilders.get("/pokemons/" + validPokemonName)
+//                        .with(user("menino@gmail.com").password("1234").roles("MESTRE_POKEMON"))
+//        ).andExpect(MockMvcResultMatchers.status().is4xxClientError());
     }
 
 }
