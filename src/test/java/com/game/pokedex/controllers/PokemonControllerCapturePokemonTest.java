@@ -92,14 +92,33 @@ public class PokemonControllerCapturePokemonTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/pokemons/capturar/menino/pikachu")
                         .with(user("menino@gmail.com").password("1234").roles("MESTRE_POKEMON"))
-                ).andExpect(MockMvcResultMatchers.status().isOk()) // Assuming a successful capture returns HTTP status 200
-                .andExpect(MockMvcResultMatchers.content().string("true")); // Expecting the response body to be "true" indicating successful capture
+                ).andExpect(MockMvcResultMatchers.status().isOk()) // Requisição feita com sucesso
+                .andExpect(MockMvcResultMatchers.content().string("true")); // Pokemon capturado
 
-        // Verify that the Pokémon is saved in the user's Pokedex
+        // Verifica se o pokemon foi salvo na pokedex
         ArgumentCaptor<Pokedex> pokedexArgumentCaptor = ArgumentCaptor.forClass(Pokedex.class);
         verify(pokedexService, times(1)).addPokemonToPokedex(pokedexArgumentCaptor.capture());
         Pokedex capturedPokemon = pokedexArgumentCaptor.getValue();
         Assertions.assertNotNull(capturedPokemon);
         Assertions.assertEquals("pikachu", capturedPokemon.getName());
+    }
+
+    @Test
+    public void capturePokemon_shouldReturnFalse_whenTryCatchingPokemonFail() throws Exception {
+        // Mock user repository to return a user when findByUsername is called
+        User user = new User("menino@gmail.com", "1234");
+        user.setName("menino");
+
+        // Mock capture rate to 100%
+        CaptureRate captureRate = new CaptureRate(0);
+        when(pokedexEndPointRepository.getCaptureRateByName(anyString())).thenReturn(captureRate);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/pokemons/capturar/menino/pikachu")
+                        .with(user("menino@gmail.com").password("1234").roles("MESTRE_POKEMON"))
+                ).andExpect(MockMvcResultMatchers.status().isOk()) // Requisição feita com sucesso
+                .andExpect(MockMvcResultMatchers.content().string("false")); // Pokemon não capturado
+
+        // Verifica se o pokemon não foi salvo na pokedex
+        verify(pokedexService, never()).addPokemonToPokedex(any(Pokedex.class));
     }
 }
