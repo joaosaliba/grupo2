@@ -35,7 +35,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void cadastrarUsuarioValido_ResultaSucesso(){
+    public void cadastrarUsuarioValido_ResultaSucesso() throws Exception{
         UserRequest userRequest = new UserRequest(Instant.now(),
                 "francisco@gmail.com",
                 "nunes",

@@ -20,12 +20,15 @@ public class UserStepDefinition {
     private UserRequest userRequest = null;
     private UserDto userDto;
 
+    private String token;
+
     public UserStepDefinition(){
         request = RestAssured.given()
                 .baseUri("http://localhost:8080")
                 .contentType(ContentType.JSON);
         userDto = new UserDto();
         userRequest = new UserRequest();
+        token = "";
     }
 
     @Given("cliente com dados e nao cadastrado")
@@ -38,70 +41,77 @@ public class UserStepDefinition {
         this.userRequest.setRole("ADMIN");
     }
 
-    @Given("cliente ja estiver cadastrado")
+    @Given("cliente ja estiver cadastrado e logado")
     public void clienteJaEstiverCadastrado(){
         this.userRequest = new UserRequest(
                 Instant.now(),
-                "email@email.com",
-                "password",
+                RandomStringUtils.randomAlphabetic(10)+"@email.com",
+                RandomStringUtils.randomAlphabetic(8),
                 RandomStringUtils.randomAlphabetic(10),
                 "ADMIN"
         );
-
         response = this.request.body(userRequest).when().post("/user");
-
         response.then().statusCode(201);
+
         var id = response.jsonPath().getLong("id");
         requestForDto();
         this.userDto.setId(id);
+
+        AuthRequest login = new AuthRequest(userRequest.getEmail(), userRequest.getPassword());
+        response = request.body(login).when().post("/login");
+        token = response.getBody().asString();
     }
 
-    @When("cadastro o cliente")
+    @When("cadastro o cliente e faco loggin")
     public void cadastroOCliente(){
         response = request.body(userRequest).when().post("/user");
         requestForDto();
         response.then().statusCode(201);
         var id = response.jsonPath().getLong("id");
         userDto.setId(id);
+        AuthRequest login = new AuthRequest(userRequest.getEmail(), userRequest.getPassword());
+        response = request.body(login).when().post("/login");
+        token = response.getBody().asString();
     }
 
     @When("cadastro o cliente sem informar o nome")
     public void cadastroOClienteSemInformarONome(){
-        System.out.println("alskdjfalksdj");
+        userRequest.setName(null);
+        response = request.body(userRequest).when().post("/user");
     }
 
     @When("cadastro o cliente sem informar o email")
     public void cadastroOClienteSemInformarOEmail(){
-        System.out.println("lasdjflasdf");
+        userRequest.setEmail(null);
+        response = request.body(userRequest).when().post("/user");
     }
 
     @When("pesquisar o cliente pelo nome")
     public void pesquisarOClientePeloNome(){
-        System.out.println("lalala");
+        response = request.header("Authorization", "Bearer " + token).when().get("/user/"+userRequest.getName());
+        response.then().statusCode(200);
     }
 
     @Then("erro no cadastro {int}")
     public void erroNoCadastro(int erro){
-        System.out.println("lslslfasd");
+        Assertions.assertEquals(erro, response.statusCode());
     }
 
     @Then("encontro o cliente cadastrado")
     public void encontroOClienteCadastrado(){
-        response = request.when().get("/user/"+userRequest.getName());
+        response = request.header("Authorization", "Bearer " + token).when().get("/user/"+userRequest.getName());
         response.then().statusCode(200);
+    }
 
+    @Then("deve retornar o cliente")
+    public void deveRetornarOClienteDentroDaLista(){
         var name = response.jsonPath().get("name");
         Assertions.assertEquals(userRequest.getName(),name);
     }
 
-    @Then("deve retornar o cliente dentro da lista")
-    public void deveRetornarOClienteDentroDaLista(){
-        System.out.println("lalala");
-    }
-
     @And("resposta deve ter status igual a {int}")
     public void respostaDeveTerStatusIgualA(int codigo){
-        System.out.println("alskdjfalsdjf"+codigo);
+        Assertions.assertEquals(codigo,response.statusCode());
     }
 
     private void requestForDto(){
