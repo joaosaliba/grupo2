@@ -50,7 +50,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<UserDto> createUser(@RequestBody UserRequest request){
+    public ResponseEntity<UserDto> createUser(@RequestBody UserRequest request) throws Exception{
         return this.userService.createUser(request);
     }
 }

@@ -26,9 +26,9 @@ public class UserControllerTest {
                                 .content("""
                                         {
                                           "createdDate": "2024-05-20T15:11:06.317Z",
-                                          "email": "menino@gmail.com",
-                                          "password": "1234",
-                                          "name": "menino",
+                                          "email": "menino1@gmail.com",
+                                          "password": "12341",
+                                          "name": "menino1",
                                           "role": "MESTRE_POKEMON"
                                         }
                                         """)
@@ -52,6 +52,28 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         ).andExpect(MockMvcResultMatchers.status().is4xxClientError());
+    }
+
+    @Test
+    public void buscarUserCadastrado_ResultaSucesso()throws Exception{
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/user")
+                        .content("""
+                                        {
+                                          "createdDate": "2024-05-20T15:11:06.317Z",
+                                          "email": "menino@gmail.com",
+                                          "password": "1234",
+                                          "name": "menino",
+                                          "role": "MESTRE_POKEMON"
+                                        }
+                                        """)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andExpect(MockMvcResultMatchers.status().isCreated());
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/user/menino")
+        ).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
 
 

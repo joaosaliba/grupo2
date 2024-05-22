@@ -93,9 +93,6 @@ public class UserControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void createUserShouldReturnCreatedStatus() throws Exception {
-
-
-
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/user")
                         .contentType(MediaType.APPLICATION_JSON)

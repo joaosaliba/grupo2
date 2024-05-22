@@ -26,7 +26,10 @@ public class UserService {
         this.encoder = encoder;
     }
 
-    public ResponseEntity<UserDto> createUser(UserRequest userRequest){
+    public ResponseEntity<UserDto> createUser(UserRequest userRequest) throws Exception {
+        if(userRequest == null || userRequest.getEmail() == null || userRequest.getPassword() == null || userRequest.getName() == null){
+            throw new Exception("campo em falta");
+        }
         User user;
         user = this.modelMapper.map(userRequest, User.class);
         user.setRole(User.Role.valueOf(userRequest.getRole()));
