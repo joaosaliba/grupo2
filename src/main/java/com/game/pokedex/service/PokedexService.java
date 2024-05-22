@@ -48,7 +48,6 @@ public class PokedexService {
         this.pokedexRepository.save(pokedex);
     }
 
-
     @Transactional
     public void savePokedexEntry(Pokedex pokedex) {
         pokedexRepository.save(pokedex);
@@ -61,8 +60,6 @@ public class PokedexService {
     public JsonNode getEvolutionChainJson(String url) {
         return restTemplate.getForObject(url, JsonNode.class);
     }
-
-
 
     public List<String> extractSpeciesNames(JsonNode evolutionNode) {
         List<String> names = new ArrayList<>();
