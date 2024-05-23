@@ -15,6 +15,7 @@ jwt:
   expiration: 100000
 app:
   pokemon:
+    #url: 'http://localhost:8082/api/v2/'
     url: 'https://pokeapi.co/api/v2/'
   cors:
     allowedOrigins: 'http://localhost:4200'

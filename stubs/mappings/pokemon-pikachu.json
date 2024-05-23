@@ -1,12 +1,12 @@
 {
   "request": {
-    "url": "/api/v2/pokemon?limit=20&offset=20",
+    "url": "/api/v2/pokemon/pikachu",
     "method": "GET"
   },
   "response": {
     "status": 200,
     "jsonBody": {
-      "count": 1302,
+      "name": "pikachu",
       "next": "https://pokeapi.co/api/v2/pokemon?offset=40&limit=20",
       "previous": "https://pokeapi.co/api/v2/pokemon?offset=0&limit=20",
       "results": [
